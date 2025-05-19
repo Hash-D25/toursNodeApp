@@ -1,18 +1,51 @@
 /*
-//require('fs') :is a built-in module in Node.js that allows you to work with the file system on your computer.
-//fs.readFileSync :is a method that reads the contents of a file synchronously, meaning it will block the execution of the code until the file is read completely.
-//template strings :are enclosed in backticks (``) and allow for multi-line strings and string interpolation.
-//fs.writeFileSync :is a method that writes data to a file synchronously, meaning it will block the execution of the code until the data is written completely.
+require('fs') :is a built-in module in Node.js that allows you to work with the file system on your computer.
+
 */ 
-
-
-
-
-
 const fs=require('fs');
+/*
+19/5/25 - Monday
+Blocking Sncyhronous code
 
-const textIn=fs.readFileSync('./txt/input.txt','utf-8'); 
+fs.readFileSync :is a method that reads the contents of a file synchronously, meaning it will block the execution of the code until the file is read completely.
+template strings :are enclosed in backticks (``) and allow for multi-line strings and string interpolation.
+fs.writeFileSync :is a method that writes data to a file synchronously, meaning it will block the execution of the code until the data is written completely.
+*/
 
-const textOut=`This is what we know about the avocado: ${textIn}. \n Created on ${Date.now()}`;
-fs.writeFileSync('./txt/output.txt',textOut);
-console.log("file created!");
+
+
+
+
+// const fs=require('fs');
+
+// const textIn=fs.readFileSync('./txt/input.txt','utf-8'); 
+
+// const textOut=`This is what we know about the avocado: ${textIn}. \n Created on ${Date.now()}`;
+// fs.writeFileSync('./txt/output.txt',textOut);
+// console.log("file created!");
+
+
+/*
+19/5/25 - Monday
+
+Asynchronous code
+Reading and wirting files asynchronously
+ *fs.readFile :is a method that reads the
+ * fs.writeFile :is a method that writes data to a file asynchronously, meaning it will not block the execution of the code while the file is being written.
+ * callback function :is a function that is passed as an argument to another function and is executed after the first function has completed its task.
+ * error-first callback :is a common pattern in Node.js where the first argument of the callback function is an error object, and the second argument is the result of the operation. If there is no error, the first argument will be null.
+ */
+
+ fs.readFile('./txt/start.txt','utf-8',(err,data1)=>{
+    if(err) return console.log('Error! 💥');
+    fs.readFile(`./txt/${data1}.txt`,'utf-8',(err,data2)=>{
+        console.log(data2);
+        fs.readFile('./txt/append.txt','utf-8',(err,data3)=>{
+            console.log(data3);
+            fs.writeFile('./txt/final.txt',`${data2}\n${data3}`,'utf-8',err=>{
+                console.log('Your file has been written! 📝');
+            })
+        })
+    })
+})
+ 
