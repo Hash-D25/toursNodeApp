@@ -36,16 +36,37 @@ Reading and wirting files asynchronously
  * error-first callback :is a common pattern in Node.js where the first argument of the callback function is an error object, and the second argument is the result of the operation. If there is no error, the first argument will be null.
  */
 
- fs.readFile('./txt/start.txt','utf-8',(err,data1)=>{
-    if(err) return console.log('Error! 💥');
-    fs.readFile(`./txt/${data1}.txt`,'utf-8',(err,data2)=>{
-        console.log(data2);
-        fs.readFile('./txt/append.txt','utf-8',(err,data3)=>{
-            console.log(data3);
-            fs.writeFile('./txt/final.txt',`${data2}\n${data3}`,'utf-8',err=>{
-                console.log('Your file has been written! 📝');
-            })
-        })
-    })
-})
+//  fs.readFile('./txt/start.txt','utf-8',(err,data1)=>{
+//     if(err) return console.log('Error! 💥');
+//     fs.readFile(`./txt/${data1}.txt`,'utf-8',(err,data2)=>{
+//         console.log(data2);
+//         fs.readFile('./txt/append.txt','utf-8',(err,data3)=>{
+//             console.log(data3);
+//             fs.writeFile('./txt/final.txt',`${data2}\n${data3}`,'utf-8',err=>{
+//                 console.log('Your file has been written! 📝');
+//             })
+//         })
+//     })
+// })
  
+
+
+/*23/5/25 - Friday
+creating a server
+* http :is a built-in module in Node.js that allows you to create an HTTP server and make HTTP requests.
+* createServer :is a method that creates an HTTP server that listens to server ports and gives a response back to the client.
+* listen :is a method that makes the server start listening for incoming requests on a specified port.
+* request :is an object that represents the incoming request to the server, containing information about the request such as the URL, method, and headers.
+* response :is an object that represents the outgoing response from the server, allowing you to send data back to the client.
+*/
+
+const http=require('http');
+const server=http.createServer((req,res)=>{
+    res.end('Hello from the server!');
+});
+
+server.listen(8000,'127.0.0.1',()=>{
+    console.log('Waiting for requests...');
+});
+
+//go to the browser and type in the url 127.0.0.1:8000
