@@ -3,6 +3,7 @@ require('fs') :is a built-in module in Node.js that allows you to work with the 
 
 */ 
 const fs=require('fs');
+const path = require('path');
 /*
 19/5/25 - Monday
 Blocking Sncyhronous code
@@ -61,12 +62,44 @@ creating a server
 */
 
 const http=require('http');
+// const server=http.createServer((req,res)=>{
+//     res.end('Hello from the server!');
+// });
+
+// server.listen(8000,'127.0.0.1',()=>{
+//     console.log('Waiting for requests...');
+// });
+
+//go to the browser and type in the url 127.0.0.1:8000
+
+
+
+
+/*23/5/25 - Friday
+Routing
+* url :is a built-in module in Node.js that provides utilities for URL resolution and parsing.
+writeHead :is a method that sends a response header to the request. The first argument is the status code, and the second argument is an object containing the headers.
+*/
+
+const url=require('url');
+
 const server=http.createServer((req,res)=>{
-    res.end('Hello from the server!');
+    const pathName=req.url;
+    if(pathName==='/'){
+        res.end('Welcome to the home page!');
+    }else if(pathName==='/about'){
+        res.end('Welcome to the about page!'); }
+    else if(pathName==='/contact'){
+        res.end('Welcome to the contact page!'); }
+    else{
+        res.writeHead(404,{
+            'Content-type':'text/html',
+            'my-own-header':'hello-world'
+        });
+        res.end('<h1>Page not found!</h1>');
+    }
 });
 
 server.listen(8000,'127.0.0.1',()=>{
     console.log('Waiting for requests...');
 });
-
-//go to the browser and type in the url 127.0.0.1:8000
