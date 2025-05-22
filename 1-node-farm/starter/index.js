@@ -83,14 +83,53 @@ writeHead :is a method that sends a response header to the request. The first ar
 
 const url=require('url');
 
+// const server=http.createServer((req,res)=>{
+//     const pathName=req.url;
+//     if(pathName==='/'){
+//         res.end('Welcome to the home page!');
+//     }else if(pathName==='/about'){
+//         res.end('Welcome to the about page!'); }
+//     else if(pathName==='/contact'){
+//         res.end('Welcome to the contact page!'); }
+//     else{
+//         res.writeHead(404,{
+//             'Content-type':'text/html',
+//             'my-own-header':'hello-world'
+//         });
+//         res.end('<h1>Page not found!</h1>');
+//     }
+// });
+
+// server.listen(8000,'127.0.0.1',()=>{
+//     console.log('Waiting for requests...');
+// });
+
+
+/*23/05/25 Friday
+Creating a very simple API
+* JSON :is a built-in module in Node.js that provides methods for parsing and stringifying JSON data.
+* JSON.parse :is a method that converts a JSON string into a JavaScript object.
+* JSON.stringify :is a method that converts a JavaScript object into a JSON string.
+* fs.readFileSync :is a method that reads the contents of a file synchronously, meaning it will block the execution of the code until the file is read completely.
+*/
+
+const data=fs.readFileSync(`${__dirname}/dev-data/data.json`,'utf-8');
+const dataObj=JSON.parse(data);
+
 const server=http.createServer((req,res)=>{
     const pathName=req.url;
     if(pathName==='/'){
-        res.end('Welcome to the home page!');
-    }else if(pathName==='/about'){
-        res.end('Welcome to the about page!'); }
+        res.end('Welcome to the home page!');}
+    else if(pathName==='/about'){
+        res.end('Welcome to the about page!');}     
     else if(pathName==='/contact'){
-        res.end('Welcome to the contact page!'); }
+        res.end('Welcome to the contact page!');}
+    else if(pathName==='/api'){
+        res.writeHead(200,{
+            'Content-type':'application/json'
+        });
+        res.end(data);
+    }
     else{
         res.writeHead(404,{
             'Content-type':'text/html',
@@ -99,7 +138,6 @@ const server=http.createServer((req,res)=>{
         res.end('<h1>Page not found!</h1>');
     }
 });
-
 server.listen(8000,'127.0.0.1',()=>{
     console.log('Waiting for requests...');
 });
