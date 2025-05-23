@@ -112,18 +112,39 @@ Creating a very simple API
 * JSON.stringify :is a method that converts a JavaScript object into a JSON string.
 * fs.readFileSync :is a method that reads the contents of a file synchronously, meaning it will block the execution of the code until the file is read completely.
 */
+const tempOverview=fs.readFileSync(`${__dirname}/templates/template-overview.html`,'utf-8');
+const tempCard=fs.readFileSync(`${__dirname}/templates/template-card.html`,'utf-8');
+const tempProduct=fs.readFileSync(`${__dirname}/templates/template-product.html`,'utf-8');
 
+const replaceTemplate = (temp, product) => {
+    let output = temp.replace(/{%PRODUCTNAME%}/g, product.productName);
+    output = output.replace(/{%IMAGE%}/g, product.image);
+    output = output.replace(/{%FROM%}/g, product.from);
+    output = output.replace(/{%NUTRIENTS%}/g, product.nutrients);
+    output = output.replace(/{%QUANTITY%}/g, product.quantity);
+    output = output.replace(/{%PRICE%}/g, product.price);
+    output = output.replace(/{%DESCRIPTION%}/g, product.description);
+    output = output.replace(/{%ID%}/g, product.id);
+    output = output.replace(/{%ORGANIC%}/g, product.organic ? 'Organic' : 'Not Organic');
+    return output;
+}
 const data=fs.readFileSync(`${__dirname}/dev-data/data.json`,'utf-8');
 const dataObj=JSON.parse(data);
 
 const server=http.createServer((req,res)=>{
     const pathName=req.url;
     if(pathName==='/'){
-        res.end('Welcome to the home page!');}
+        res.writeHead(200,{'Content-type':'text/html'});
+        const cardsHtml=dataObj.map(el=>replaceTemplate(tempCard,el)).join('');
+        const output=tempOverview.replace(/{%PRODUCT_CARDS%}/g,cardsHtml);
+        res.end(output);
+    }
     else if(pathName==='/about'){
-        res.end('Welcome to the about page!');}     
+        res.end('Welcome to the about page!');
+    }     
     else if(pathName==='/contact'){
-        res.end('Welcome to the contact page!');}
+        res.end('Welcome to the contact page!');
+    }
     else if(pathName==='/api'){
         res.writeHead(200,{
             'Content-type':'application/json'
