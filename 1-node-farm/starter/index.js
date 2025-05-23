@@ -84,12 +84,12 @@ writeHead :is a method that sends a response header to the request. The first ar
 const url=require('url');
 
 // const server=http.createServer((req,res)=>{
-//     const pathName=req.url;
-//     if(pathName==='/'){
+//     const pathname=req.url;
+//     if(pathname==='/'){
 //         res.end('Welcome to the home page!');
-//     }else if(pathName==='/about'){
+//     }else if(pathname==='/about'){
 //         res.end('Welcome to the about page!'); }
-//     else if(pathName==='/contact'){
+//     else if(pathname==='/contact'){
 //         res.end('Welcome to the contact page!'); }
 //     else{
 //         res.writeHead(404,{
@@ -112,6 +112,7 @@ Creating a very simple API
 * JSON.stringify :is a method that converts a JavaScript object into a JSON string.
 * fs.readFileSync :is a method that reads the contents of a file synchronously, meaning it will block the execution of the code until the file is read completely.
 */
+
 const tempOverview=fs.readFileSync(`${__dirname}/templates/template-overview.html`,'utf-8');
 const tempCard=fs.readFileSync(`${__dirname}/templates/template-card.html`,'utf-8');
 const tempProduct=fs.readFileSync(`${__dirname}/templates/template-product.html`,'utf-8');
@@ -125,27 +126,29 @@ const replaceTemplate = (temp, product) => {
     output = output.replace(/{%PRICE%}/g, product.price);
     output = output.replace(/{%DESCRIPTION%}/g, product.description);
     output = output.replace(/{%ID%}/g, product.id);
-    output = output.replace(/{%ORGANIC%}/g, product.organic ? 'Organic' : 'Not Organic');
+    output = output.replace(/{%NOT_ORGANIC%}/g, product.organic ? '' : 'not-organic');
+    output = output.replace(/{%ORGANIC%}/g, product.organic ? 'Organic' : 'Not Organic'); // <-- Add this line
     return output;
 }
 const data=fs.readFileSync(`${__dirname}/dev-data/data.json`,'utf-8');
 const dataObj=JSON.parse(data);
 
+
 const server=http.createServer((req,res)=>{
-    const pathName=req.url;
-    if(pathName==='/'){
+    const {query, pathname } = url.parse(req.url, true);
+    if(pathname==='/' || pathname==='/overview'){
         res.writeHead(200,{'Content-type':'text/html'});
         const cardsHtml=dataObj.map(el=>replaceTemplate(tempCard,el)).join('');
         const output=tempOverview.replace(/{%PRODUCT_CARDS%}/g,cardsHtml);
         res.end(output);
     }
-    else if(pathName==='/about'){
-        res.end('Welcome to the about page!');
-    }     
-    else if(pathName==='/contact'){
-        res.end('Welcome to the contact page!');
+    else if(pathname==='/product'){
+        res.writeHead(200,{'Content-type':'text/html'});
+        const product=dataObj[query.id];
+        const output=replaceTemplate(tempProduct,product);
+        res.end(output);
     }
-    else if(pathName==='/api'){
+    else if(pathname==='/api'){
         res.writeHead(200,{
             'Content-type':'application/json'
         });
