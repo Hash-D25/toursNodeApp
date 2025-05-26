@@ -77,6 +77,7 @@ app.patch('/api/v1/tours/:id',(req,res)=>{
         });
     });
 });
+app.delete('api/v1')
 
 const port=3000;
 app.listen(port, () => {
