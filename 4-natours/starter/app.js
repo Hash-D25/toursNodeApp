@@ -111,6 +111,49 @@ const deleteTour=(req,res)=>{
         });
     });
 }
+
+const getAllUsers=(req,res)=>{
+    res.status(200).json({
+        status:'success',
+        data:{
+            users:[]
+        }
+    });
+}
+const getUser=(req,res)=>{
+    res.status(200).json({
+        status:'success',
+        data:{
+            user:{}
+        }
+    });
+}
+const createUser=(req,res)=>{
+    res.status(201).json({
+        status:'success',
+        data:{
+            user:{}
+        }
+    });
+}
+const updateUser=(req,res)=>{
+    res.status(200).json({
+        status:'success',
+        data:{
+            user:{}
+        }
+    });
+}
+const deleteUser=(req,res)=>{
+    res.status(204).json({
+        status:'success',
+        data:null
+    });
+}
+// 3.User Routes
+app.route('/api/v1/users').get(getAllUsers).post(createUser);           
+app.route('/api/v1/users/:id').get(getUser).patch(updateUser).delete(deleteUser);
+
 // 3.API Endpoints
 
 // app.get('/api/v1/tours',getAllTours);
