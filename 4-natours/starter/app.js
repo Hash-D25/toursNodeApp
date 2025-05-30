@@ -3,6 +3,7 @@ const { get } = require('http');
 const app=express();
 
 app.use(express.json());
+app.use(express.static(`${__dirname}/public`));
 const tourRouter=require('./routes/tourRoutes');
 const userRouter=require('./routes/userRoutes');
  
