@@ -93,6 +93,12 @@ tourSchema.post(/^find/, function (docs, next) {
   next();
 });
 
+//AGGREGATION MIDDLEWARE
+tourSchema.pre('aggregate', function (next) {
+  this.pipeline().unshift({ $match: { secretTour: { $ne: true } } }); // Exclude secret tours
+  next();
+});
+
 //Creating a model
 // Model is a class with which we can create and read documents from the underlying MongoDB database.
 const Tour = mongoose.model('Tour', tourSchema);
