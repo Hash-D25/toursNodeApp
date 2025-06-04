@@ -1,6 +1,12 @@
 const dotenv=require('dotenv');
 const mongoose=require('mongoose');
 
+process.on('uncaughtException', err => {
+    console.log('🔴 UNCAUGHT EXCEPTION! Shutting down...');
+    console.log(err.name, err.message);
+    process.exit(1);
+});
+
 dotenv.config({path: './config.env'});
 const app=require('./app');
 // console.log(app.get('env')); // 'development' or 'production'
@@ -29,4 +35,6 @@ process.on('unhandledRejection', err => {
     process.exit(1);
   });
 });
+
+
 
