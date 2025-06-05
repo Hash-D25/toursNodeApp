@@ -16,20 +16,20 @@ const DB=process.env.DATABASE.replace('<PASSWORD>',process.env.DATABASE_PASSWORD
 
 // This will trigger unhandledRejection
 const testUnhandledRejection = () => {
-    Promise.reject(new Error('This is an unhandled rejection'));
+    Promise.reject(new Error('🔴This is an unhandled rejection'));
 };
 
 mongoose
   .connect(DB)
-  .then(() => console.log('DB connection successful!'));
+  .then(() => console.log('🟢DB connection successful!'));
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
-  console.log(`App running on port ${port}...`);
+  console.log(`🟢App running on port ${port}...`);
 });
 
 process.on('unhandledRejection', err => {
-  console.log('UNHANDLED REJECTION! 💥 Shutting down...');
+  console.log('🔴UNHANDLED REJECTION! 💥 Shutting down...');
   console.log(err.name, err.message);
   server.close(() => {
     process.exit(1);
