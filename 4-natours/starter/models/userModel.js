@@ -54,6 +54,14 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
+userSchema.pre('save', function (next) {
+  // Only run this function if password was actually modified or is new
+  if (!this.isModified('password') || this.isNew) return next();
+  // Set passwordChangedAt to the current time
+  this.passwordChangedAt = Date.now() - 1000; // Subtract 1 second to ensure the JWT is not issued before this time
+  next();
+});
+
 userSchema.methods.correctPassword = async function (
   candidatePassword,
   userPassword,
