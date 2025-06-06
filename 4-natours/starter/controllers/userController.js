@@ -10,14 +10,15 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
-exports.getAllUsers = (req, res) => {
+exports.getAllUsers = catchAsync(async (req, res) => {
+  const users = await User.find();
   res.status(200).json({
     status: 'success',
     data: {
-      users: [],
+      users: users,
     },
   });
-};
+});
 
 exports.updateMe = catchAsync(async (req, res, next) => {
   //1) Create error if user POSTs password data
@@ -41,6 +42,16 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     data: {
       user: updatedUser,
     },
+  });
+});
+
+exports.deleteMe = catchAsync(async (req, res, next) => {
+  //1) Set current user to inactive
+  await User.findByIdAndUpdate(req.user.id, { active: false });
+  //2) Send response
+  res.status(204).json({
+    status: 'success',
+    data: null,
   });
 });
 
