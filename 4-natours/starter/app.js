@@ -13,9 +13,9 @@ const morgan = require('morgan');
 
 // Set security HTTP headers
 app.use(helmet());
-// Development logging
+// Development lcogging
 if (process.env.NODE_ENV === 'development') {
-  // If not in development mode, use morgan for logging
+  // if not in development mode, use morgan for logging
   app.use(morgan('dev'));
 }
 // Limit requests from the same API
