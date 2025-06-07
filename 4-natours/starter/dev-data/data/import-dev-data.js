@@ -5,7 +5,10 @@ const Tour = require('./../../models/tourModel');
 
 dotenv.config({ path: './config.env' });
 
-const DB = process.env.DATABASE.replace('<PASSWORD>', process.env.DATABASE_PASSWORD);
+const DB = process.env.DATABASE.replace(
+  '<PASSWORD>',
+  process.env.DATABASE_PASSWORD,
+);
 
 mongoose
   .connect(DB)
@@ -18,16 +21,16 @@ mongoose
   });
 
 // Read json file
-const tours = JSON.parse(fs.readFileSync(`${__dirname}/tours-simple.json`, 'utf-8'));
+const tours = JSON.parse(fs.readFileSync(`${__dirname}/tours.json`, 'utf-8'));
 
 // Import data into db
 const importData = async () => {
   try {
     await Tour.create(tours);
     console.log('🟢Data successfully loaded!');
-} catch (err) {
+  } catch (err) {
     console.error('🔴Error importing data:', err);
-} finally {
+  } finally {
     process.exit();
     mongoose.disconnect();
   }

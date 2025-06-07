@@ -11,9 +11,9 @@ const tourSchema = new mongoose.Schema(
       trim: true,
       maxlength: [40, 'A tour name must have less or equal than 40 characters'],
       minlength: [10, 'A tour name must have more or equal than 10 characters'],
-    //   validate:[validator.isAlpha,'Tour name must only contain characters'],
+      //   validate:[validator.isAlpha,'Tour name must only contain characters'],
     },
-    slug:String,
+    slug: String,
     duration: {
       type: Number,
       required: [true, 'A tour must have a duration'],
@@ -45,7 +45,7 @@ const tourSchema = new mongoose.Schema(
       required: [true, 'A tour must have a price'],
     },
     priceDiscount: {
-      type: Number, 
+      type: Number,
       validate: {
         // This only works on CREATE and SAVE!!!
         validator: function (val) {
@@ -79,11 +79,35 @@ const tourSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    startLocation: {
+      // GeoJSON
+      type: {
+        type: String,
+        default: 'Point',
+        enum: ['Point'], // 'type' must be 'Point'
+      },
+      coordinates: [Number],
+      address: String,
+      description: String,
+    },
+    locations: [
+      {
+        type: {
+          type: String,
+          default: 'Point',
+          enum: ['Point'], // 'type' must be 'Point'
+        },
+        coordinates: [Number],
+        address: String,
+        description: String,
+        day: Number, // Day of the tour
+      },
+    ],
   },
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
-  }
+  },
 );
 //virtual properties
 tourSchema.virtual('durationWeeks').get(function () {
