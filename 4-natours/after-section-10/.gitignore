@@ -1,3 +1,4 @@
+config.env
 # Environment variables
 .env
 
