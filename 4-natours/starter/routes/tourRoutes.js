@@ -19,7 +19,7 @@ router
   .route('/tour-stats')
   .get(
     authController.protect,
-    authController.restrictTo('amdin', 'lead-guide', 'guide'),
+    authController.restrictTo('admin', 'lead-guide', 'guide'),
     tourController.getTourStats,
   );
 router.route('/monthly-plan/:year').get(tourController.getMonthlyPlan);
@@ -29,7 +29,7 @@ router
   .get(tourController.getAllTours)
   .post(
     authController.protect,
-    authController.restrictTo('amdin', 'lead-guide'),
+    authController.restrictTo('admin', 'lead-guide'),
     tourController.createTour,
   );
 router
@@ -37,7 +37,7 @@ router
   .get(authController.protect, tourController.getTour)
   .patch(
     authController.protect,
-    authController.restrictTo('amdin', 'lead-guide'),
+    authController.restrictTo('admin', 'lead-guide'),
     tourController.updateTour,
   )
   .delete(

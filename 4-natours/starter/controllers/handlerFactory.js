@@ -49,7 +49,7 @@ exports.craeteOne = (Model) =>
 
 exports.getOne = (Model, populateOptions) =>
   catchAsync(async (req, res, next) => {
-    const query = Model.findById(req.params.id);
+    let query = Model.findById(req.params.id);
     if (populateOptions) query = query.populate(populateOptions);
     const doc = await query;
 
@@ -75,7 +75,8 @@ exports.getAll = (Model) =>
       .sort()
       .limitFields()
       .paginate();
-    const doc = await features.query.explain();
+    // const doc = await features.query.explain();
+    const doc = await features.query;
 
     // SEND RESPONSE
     res.status(200).json({
