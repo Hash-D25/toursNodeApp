@@ -15,17 +15,31 @@ router.use('/:tourId/reviews', reviewRouter);
 //     reviewController.createReview,
 //   );
 
-router.route('/tour-stats').get(tourController.getTourStats);
+router
+  .route('/tour-stats')
+  .get(
+    authController.protect,
+    authController.restrictTo('amdin', 'lead-guide', 'guide'),
+    tourController.getTourStats,
+  );
 router.route('/monthly-plan/:year').get(tourController.getMonthlyPlan);
 
 router
   .route('/')
-  .get(authController.protect, tourController.getAllTours)
-  .post(tourController.createTour);
+  .get(tourController.getAllTours)
+  .post(
+    authController.protect,
+    authController.restrictTo('amdin', 'lead-guide'),
+    tourController.createTour,
+  );
 router
   .route('/:id')
   .get(authController.protect, tourController.getTour)
-  .patch(tourController.updateTour)
+  .patch(
+    authController.protect,
+    authController.restrictTo('amdin', 'lead-guide'),
+    tourController.updateTour,
+  )
   .delete(
     authController.protect,
     authController.restrictTo('admin', 'lead-guide'),
