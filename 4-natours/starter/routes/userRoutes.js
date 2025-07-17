@@ -1,6 +1,7 @@
 const express = require('express');
 const {
   getAllUsers,
+  getMe,
   getUser,
   createUser,
   updateUser,
@@ -23,7 +24,7 @@ router.patch(
   authController.protect,
   authController.updatePassword,
 );
-
+router.get('/me', authController.protect, getMe, getUser);
 router.patch('/updateMe', authController.protect, updateMe);
 router.delete('/deleteMe', authController.protect, deleteMe);
 
