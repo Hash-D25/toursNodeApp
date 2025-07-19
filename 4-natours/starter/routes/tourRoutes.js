@@ -24,6 +24,13 @@ router
   );
 router.route('/monthly-plan/:year').get(tourController.getMonthlyPlan);
 
+//Routes for geospatial queries
+router
+  .route('/tours-within/:distance/centre/:latlng/unit/:unit')
+  .get(authController.protect, tourController.getToursWithin);
+// /tours-within?distance=233&center=-40,45&unit=mi
+// /tours-within/233/centre/-40,45/unit/mi
+
 router
   .route('/')
   .get(tourController.getAllTours)
