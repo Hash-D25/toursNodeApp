@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
@@ -15,7 +16,14 @@ const morgan = require('morgan');
 const { mongo } = require('mongoose');
 
 // console.log(process.env.NODE_ENV);
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
+
 //1) GLOBAL MIDDLEWARES
+
+//serving static files
+// app.use(express.static(`${__dirname}/public`));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Set security HTTP headers
 app.use(helmet());
@@ -57,13 +65,18 @@ app.use(
   }),
 );
 
-//serving static files
-app.use(express.static(`${__dirname}/public`));
-
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
   // console.log(req.headers);
   next();
+});
+
+// 2) ROUTES
+app.get('/', (req, res) => {
+  res.status(200).render('base', {
+    title: 'The Park Camper',
+    message: 'Welcome to The Park Camper!',
+  });
 });
 
 app.use('/api/v1/tours', tourRouter);
