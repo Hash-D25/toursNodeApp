@@ -176,10 +176,10 @@ tourSchema.post(/^find/, function (docs, next) {
 });
 
 //AGGREGATION MIDDLEWARE
-tourSchema.pre('aggregate', function (next) {
-  this.pipeline().unshift({ $match: { secretTour: { $ne: true } } }); // Exclude secret tours
-  next();
-});
+// tourSchema.pre('aggregate', function (next) {
+//   this.pipeline().unshift({ $match: { secretTour: { $ne: true } } }); // Exclude secret tours
+//   next();
+// });
 
 //Creating a model
 // Model is a class with which we can create and read documents from the underlying MongoDB database.
