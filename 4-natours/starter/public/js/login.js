@@ -1,4 +1,8 @@
-const login = async (email, password) => {
+import '@babel/polyfill';
+import axios from 'axios';
+import { showAlert } from './alerts';
+
+export const login = async (email, password) => {
   try {
     const res = await axios({
       method: 'POST',
@@ -9,22 +13,12 @@ const login = async (email, password) => {
       },
     });
     if (res.data.status === 'success') {
-      // Redirect to homepage or dashboard
-      location.assign('/');
+      showAlert('success', 'Logged in successfully!');
+      window.setTimeout(() => {
+        location.assign('/');
+      }, 1500);
     }
   } catch (err) {
-    alert(err.response.data.message || 'Login failed!');
+    showAlert('error', err.response.data.message);
   }
 };
-
-document.addEventListener('DOMContentLoaded', function () {
-  const form = document.querySelector('.form');
-  if (form) {
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      const email = document.querySelector('#email').value;
-      const password = document.querySelector('#password').value;
-      login(email, password);
-    });
-  }
-});
