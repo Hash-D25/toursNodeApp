@@ -5,6 +5,7 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
+const cookieParser = require('cookie-parser');
 const AppError = require('./utils/appError.js'); // Corrected path
 const globalErrorHandler = require('./controllers/errorController');
 const tourRouter = require('./routes/tourRoutes');
@@ -30,7 +31,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 // app.use(helmet());
 
 // Further HELMET configuration for Security Policy (CSP)
-const scriptSrcUrls = ['https://unpkg.com/', 'https://tile.openstreetmap.org'];
+const scriptSrcUrls = [
+  'https://unpkg.com/',
+  'https://tile.openstreetmap.org',
+  'https://cdnjs.cloudflare.com',
+];
 const styleSrcUrls = [
   'https://unpkg.com/',
   'https://tile.openstreetmap.org',
@@ -70,7 +75,7 @@ app.use('/api', limiter); // Apply rate limiting to all API routes
 
 // Body parser, reading data from body into req.body
 app.use(express.json({ limit: '10kb' })); // Limit request body size to 10kb
-
+app.use(cookieParser()); // Parse cookies
 // Data sanitization against NoSQL query injection
 app.use(mongoSanitize());
 
@@ -93,7 +98,7 @@ app.use(
 
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
-  // console.log(req.headers);
+  console.log(req.cookies);
   next();
 });
 
