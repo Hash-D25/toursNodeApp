@@ -22,11 +22,7 @@ router.patch('/resetPassword/:token', authController.resetPassword);
 
 //Portect all routes after this middleware
 router.use(authController.protect);
-router.patch(
-  '/updateMyPassword',
-  authController.protect,
-  authController.updatePassword,
-);
+router.patch('/updateMyPassword', authController.updatePassword);
 router.get('/me', getMe, getUser);
 router.patch('/updateMe', updateMe);
 router.delete('/deleteMe', deleteMe);
