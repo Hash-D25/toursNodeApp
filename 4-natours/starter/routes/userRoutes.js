@@ -10,6 +10,7 @@ const {
   updateMe,
   deleteMe,
   uploadUserPhoto,
+  resizeUserPhoto,
 } = require('./../controllers/userController');
 const authController = require('./../controllers/authController');
 
@@ -26,7 +27,7 @@ router.patch('/resetPassword/:token', authController.resetPassword);
 router.use(authController.protect);
 router.patch('/updateMyPassword', authController.updatePassword);
 router.get('/me', getMe, getUser);
-router.patch('/updateMe', uploadUserPhoto, updateMe);
+router.patch('/updateMe', uploadUserPhoto, resizeUserPhoto, updateMe);
 router.delete('/deleteMe', deleteMe);
 
 router.use(authController.restrictTo('admin'));
