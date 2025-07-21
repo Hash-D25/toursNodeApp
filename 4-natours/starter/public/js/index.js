@@ -1,8 +1,10 @@
 import '@babel/polyfill';
 import { login, logout } from './login.js';
 
+// DOM elements
+
 document.addEventListener('DOMContentLoaded', function () {
-  const loginForm = document.querySelector('.form');
+  const loginForm = document.querySelector('.form--login');
   const logOutBtn = document.querySelector('.nav__el--logout');
 
   if (loginForm) {

@@ -79,6 +79,7 @@ app.use('/api', limiter); // Apply rate limiting to all API routes
 
 // Body parser, reading data from body into req.body
 app.use(express.json({ limit: '10kb' })); // Limit request body size to 10kb
+app.use(express.urlencoded({ extended: true, limit: '10kb' })); // Parse URL-encoded bodies
 app.use(cookieParser()); // Parse cookies
 // Data sanitization against NoSQL query injection
 app.use(mongoSanitize());

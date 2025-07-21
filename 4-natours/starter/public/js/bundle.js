@@ -12918,8 +12918,10 @@ require("core-js/modules/web.immediate.js");
 require("core-js/modules/web.dom.iterable.js");
 require("regenerator-runtime/runtime.js");
 var _login = require("./login.js");
+// DOM elements
+
 document.addEventListener('DOMContentLoaded', function () {
-  var loginForm = document.querySelector('.form');
+  var loginForm = document.querySelector('.form--login');
   var logOutBtn = document.querySelector('.nav__el--logout');
   if (loginForm) {
     loginForm.addEventListener('submit', function (e) {
@@ -12961,7 +12963,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52345" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52320" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
