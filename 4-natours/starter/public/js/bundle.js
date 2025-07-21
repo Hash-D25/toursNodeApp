@@ -12976,17 +12976,10 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
 // DOM elements
 
 document.addEventListener('DOMContentLoaded', function () {
-  var mapBox = document.getElementById('map');
   var loginForm = document.querySelector('.form--login');
   var logOutBtn = document.querySelector('.nav__el--logout');
   var userDataForm = document.querySelector('.form-user-data');
   var userPasswordForm = document.querySelector('.form-user-password');
-
-  // DELEGATION
-  if (mapBox) {
-    var locations = JSON.parse(mapBox.dataset.locations);
-    displayMap(locations);
-  }
   if (loginForm) loginForm.addEventListener('submit', function (e) {
     e.preventDefault();
     var email = document.getElementById('email').value;
@@ -12996,12 +12989,12 @@ document.addEventListener('DOMContentLoaded', function () {
   if (logOutBtn) logOutBtn.addEventListener('click', _login.logout);
   if (userDataForm) userDataForm.addEventListener('submit', function (e) {
     e.preventDefault();
-    var name = document.getElementById('name').value;
-    var email = document.getElementById('email').value;
-    (0, _updateSettings.updateSettings)({
-      name: name,
-      email: email
-    }, 'data');
+    var form = new FormData();
+    form.append('name', document.getElementById('name').value);
+    form.append('email', document.getElementById('email').value);
+    form.append('photo', document.getElementById('photo').files[0]);
+    console.log(form);
+    (0, _updateSettings.updateSettings)(form, 'data');
   });
   if (userPasswordForm) userPasswordForm.addEventListener('submit', /*#__PURE__*/function () {
     var _ref = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee(e) {
