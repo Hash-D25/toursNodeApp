@@ -2,6 +2,7 @@ import '@babel/polyfill';
 import { login, logout } from './login.js';
 import { updateSettings } from './updateSettings';
 import { bookTour } from './stripe';
+import { showAlert } from './alerts.js';
 
 // DOM elements
 
@@ -60,4 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const { tourId } = e.target.dataset;
       bookTour(tourId);
     });
+
+  const alertMessage = document.querySelector('body').dataset.alert;
+  if (alertMessage) showAlert('success', alertMessage, 20);
 });

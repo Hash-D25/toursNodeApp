@@ -13,6 +13,7 @@ const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
+const bookingController = require('./controllers/bookingController');
 const viewRouter = require('./routes/viewRoutes');
 
 const app = express();
@@ -86,6 +87,20 @@ const limiter = rateLimit({
 });
 app.use('/api', limiter); // Apply rate limiting to all API routes
 
+app.post(
+  '/webhook-checkout',
+  express.raw({ type: 'application/json' }),
+  bookingController.webhookCheckout,
+); // Stripe webhook
+
+// Suppress Chrome DevTools and source map 404 errors
+app.get('/.well-known/appspecific/com.chrome.devtools.json', (req, res) => {
+  res.status(204).send(); // No Content
+});
+app.get('/bundle.js.map', (req, res) => {
+  res.status(204).send(); // No Content
+});
+
 // Body parser, reading data from body into req.body
 app.use(express.json({ limit: '10kb' })); // Limit request body size to 10kb
 app.use(express.urlencoded({ extended: true, limit: '10kb' })); // Parse URL-encoded bodies
@@ -112,7 +127,6 @@ app.use(
 
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
-  console.log(req.cookies);
   next();
 });
 
