@@ -65,7 +65,7 @@ exports.getAllTours = handlerFactory.getAll(Tour);
 exports.getTour = handlerFactory.getOne(Tour, {
   path: 'reviews',
 });
-exports.createTour = handlerFactory.craeteOne(Tour);
+exports.createTour = handlerFactory.createOne(Tour);
 
 exports.updateTour = handlerFactory.updateOne(Tour);
 

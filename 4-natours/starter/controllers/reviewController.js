@@ -11,7 +11,7 @@ exports.setTourUserIds = (req, res, next) => {
 
 exports.getAllReviews = handlerFactory.getAll(Review);
 exports.getReview = handlerFactory.getOne(Review);
-exports.createReview = handlerFactory.craeteOne(Review);
+exports.createReview = handlerFactory.createOne(Review);
 
 exports.updateReview = handlerFactory.updateOne(Review);
 
