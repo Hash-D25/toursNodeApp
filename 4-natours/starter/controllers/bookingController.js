@@ -40,3 +40,19 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     session,
   });
 });
+
+exports.createBookingCheckout = catchAsync(async (req, res, next) => {
+  // This is only TEMPORARY, because it's UNSECURE: everyone can make bookings without paying
+  const { tour, user, price } = req.query;
+
+  if (!tour && !user && !price) return next();
+  await Booking.create({ tour, user, price });
+
+  res.redirect(req.originalUrl.split('?')[0]);
+});
+
+exports.createBooking = handlerFactory.createOne(Booking);
+exports.getBooking = handlerFactory.getOne(Booking);
+exports.getAllBookings = handlerFactory.getAll(Booking);
+exports.updateBooking = handlerFactory.updateOne(Booking);
+exports.deleteBooking = handlerFactory.deleteOne(Booking);
