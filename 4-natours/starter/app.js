@@ -1,6 +1,7 @@
 const path = require('path');
 const express = require('express');
 const rateLimit = require('express-rate-limit');
+const cors = require('cors');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
@@ -24,6 +25,9 @@ app.set('views', path.join(__dirname, 'views'));
 
 //1) GLOBAL MIDDLEWARES
 
+//Implement CORS
+app.use(cors()); // Enable CORS for all routes
+app.options('*', cors()); // Enable pre-flight requests for all routes
 //serving static files
 // app.use(express.static(`${__dirname}/public`));
 app.use(express.static(path.join(__dirname, 'public')));
